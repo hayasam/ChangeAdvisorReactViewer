@@ -1,6 +1,6 @@
 import React from 'react'
 import {Route, Switch} from 'react-router-dom'
-import Home from './Home'
+import ProjectSettings from './ProjectSettings'
 import App from "./app/App";
 import Header from "./header/Header";
 
@@ -14,7 +14,7 @@ const AppRouter = () => (
         <Header/>
         <Switch>
             <Route exact path='/' component={App}/>
-            <Route path='/settings' component={Home}/>
+            <Route path='/settings' component={ProjectSettings}/>
         </Switch>
     </div>
 );

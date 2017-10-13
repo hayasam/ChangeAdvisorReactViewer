@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "component-horizontal-stacked-bar": "^2.0.1",
     "d3": "^4.10.2",
     "lodash": "^4.17.4",
     "react": "^15.6.1",
