@@ -1,0 +1,19 @@
+.project-card {
+    margin-bottom: 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 2px;
+    background-color: #fff;
+    position: relative;
+    min-height: 114px;
+    box-sizing: border-box;
+}
+
+.project-card-header {
+    position: relative;
+    z-index: 10;
+    padding: 15px 20px 0;
+}
+
+.project-card-dates {
+    margin-left: 20px;
+}
