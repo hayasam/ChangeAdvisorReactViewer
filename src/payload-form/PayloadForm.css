@@ -1,0 +1,11 @@
+.form-group label {
+    margin-left: 5px;
+}
+
+.form-group input {
+    margin-left: 10px;
+}
+
+form button {
+    margin-left: 10px;
+}
