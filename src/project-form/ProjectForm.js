@@ -50,7 +50,7 @@ class ProjectForm extends Component {
                         <label htmlFor={"path"} className={"control-label"}>
                             Path to repository
                         </label>
-                        <input name={"path"} className={"form-control"} value={this.state.path}
+                        <input name={"path"} className={"form-control"} value={this.state.remoteUrl}
                                onChange={this.handleChange}/>
                     </div>
 
