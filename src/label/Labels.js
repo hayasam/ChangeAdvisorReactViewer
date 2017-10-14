@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import ReviewTable from '../review-table/ReviewTable'
 import Label from './Label'
 import './Labels.css';
+import HorizontalStackedBarChart from "../horizontal-bar-chart/HorizontalStackedBarChart";
+import Test from "../horizontal-bar-chart/Test";
+import HighCharts from "../horizontal-bar-chart/HighCharts";
+import Manually from "../horizontal-bar-chart/Manually";
 
 class Labels extends Component {
 
@@ -36,6 +40,14 @@ class Labels extends Component {
                             </div>
                         ))
                     }
+                </div>
+                {/*<div className={"col-md-9"}>*/}
+                {/*<Manually/>*/}
+                {/*</div>*/}
+                <div className={"col-md-9"}>
+                    <HighCharts/>
+                    <Manually/>
+                    {/*<HorizontalStackedBarChart/>*/}
                 </div>
                 <div className="labels col-md-9">
                     <ReviewTable reviews={this.state.selectedLabel}/>

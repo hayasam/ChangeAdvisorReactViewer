@@ -5,6 +5,11 @@ import _ from "lodash";
 
 class ReviewTable extends Component {
 
+    static capitalizeFirstLetter(string) {
+        console.log(string);
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+
     render() {
         let reviews = this.props.reviews || [];
         if (reviews) {
@@ -16,14 +21,19 @@ class ReviewTable extends Component {
             {
                 Header: 'Review Date',
                 id: 'reviewDate',
-                accessor: date => new Date(date.reviewDate).toDateString()
+                accessor: review => new Date(review.reviewDate).toDateString()
             }, {
                 Header: 'Review',
                 accessor: 'reviewText'
             }, {
+                Header: 'Category',
+                id: 'category',
+                accessor: review => ReviewTable.capitalizeFirstLetter(review.category)
+            }, {
                 Header: 'Rating',
                 accessor: 'numberOfStars',
-                Footer: (<span><strong>Average:</strong>{" "}{_.round(_.mean(_.map(reviews, r => r.numberOfStars)), 2)}</span>)
+                Footer: (
+                    <span><strong>Average:</strong>{" "}{_.round(_.mean(_.map(reviews, r => r.numberOfStars)), 2)}</span>)
             }
         ];
 
