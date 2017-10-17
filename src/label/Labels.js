@@ -45,8 +45,8 @@ class Labels extends Component {
                 {/*<Manually/>*/}
                 {/*</div>*/}
                 <div className={"col-md-9"}>
-                    <HighCharts/>
-                    <Manually/>
+                    {/*<HighCharts/>*/}
+                    {/*<Manually/>*/}
                     {/*<HorizontalStackedBarChart/>*/}
                 </div>
                 <div className="labels col-md-9">
