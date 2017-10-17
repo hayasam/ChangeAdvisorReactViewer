@@ -21,8 +21,10 @@ class App extends Component {
             isLoading: false,
             formData: {limit: 10, ngrams: 1},
             numberOfReviewForSelectedCategory: 1000,
-            responseTime: 1
+            responseTime: 1,
+            totalReviews: 1
         };
+        this.componentDidMount.bind(this);
     }
 
     componentDidMount() {
@@ -38,7 +40,11 @@ class App extends Component {
                     label: obj.category,
                     value: obj.reviewSize
                 }));
-            this.setState({selectedCategory: null, data: distribution});
+
+            if (distribution.length > 0) {
+                this.setState({selectedCategory: distribution[0], data: distribution, totalReviews: responseBody.totalReviews});
+                this.categoryChosen(0);
+            }
         });
     }
 
@@ -52,25 +58,29 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <div className={"container"}>
-                    <div className={"row"}>
+            <div className={"col-md-12"}>
+                <div className={"row"}>
+                    <div className={"col-md-12"}>
                         <h3>{this.state.appName} - Reviews.</h3>
                     </div>
+                </div>
 
-                    <div className={"row"}>
-                        <div className={"col-md-12 payload-form"}>
-                            <PayloadForm value={this.state.formData}
-                                         handleSubmit={(formData) => this.handleFormSubmit(formData)}/>
-                        </div>
+                <div className={"row"}>
+                    <div className={"col-md-12 payload-form"}>
+                        <PayloadForm value={this.state.formData}
+                                     handleSubmit={(formData) => this.handleFormSubmit(formData)}/>
                     </div>
+                </div>
 
-                    <div className={"row"}>
+                <div className={"row"}>
+                    <div className={"col-md-3 card"}>
                         <DistributionPieChart distribution={this.state.data} viewBoxWidth={50}
                                               onClick={(sector) => this.categoryChosen(sector)}/>
+                        <hr />
+                        <h4>Total Reviews: {this.state.totalReviews}</h4>
                     </div>
 
-                    <div className={"row"}>
+                    <div className={"col-md-9 card"}>
                         {this.state.selectedCategory &&
                         <h3>{this.state.selectedCategory.label}</h3>
                         }
@@ -79,10 +89,9 @@ class App extends Component {
                             ({this.state.responseTime}
                             seconds)</p>
                         }
+                        <Labels isLoading={this.state.isLoading} labels={this.state.labels}/>
                     </div>
-                    <Labels isLoading={this.state.isLoading} labels={this.state.labels}/>
                 </div>
-
             </div>
         );
     }

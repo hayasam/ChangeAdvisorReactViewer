@@ -46,7 +46,7 @@ class ProjectSettings extends Component {
 
     render() {
         return (
-            <div>
+            <div className={"container"}>
                 <div className={"col-md-12"}>
                     <h1>Settings!</h1>
                     <ProjectSelect projectSelected={this.projectSelected}/>

@@ -10,7 +10,7 @@ import Header from "./header/Header";
 // with /roster or /schedule. The / route will only match
 // when the pathname is exactly the string "/"
 const AppRouter = () => (
-    <div>
+    <div className={"container-fluid"}>
         <Header/>
         <Switch>
             <Route exact path='/' component={App}/>
