@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
-import ReviewTable from '../review-table/ReviewTable'
 import Label from './Label'
 import './Labels.css';
-import HorizontalStackedBarChart from "../horizontal-bar-chart/HorizontalStackedBarChart";
-import Test from "../horizontal-bar-chart/Test";
-import HighCharts from "../horizontal-bar-chart/HighCharts";
-import Manually from "../horizontal-bar-chart/Manually";
 
 class Labels extends Component {
 
@@ -18,6 +13,7 @@ class Labels extends Component {
 
     selectedLabel(label) {
         this.setState({selectedLabel: label});
+        this.props.onClick(label);
     }
 
     render() {
@@ -32,26 +28,29 @@ class Labels extends Component {
         const data = this.props.labels;
         return (data && data.length > 0 &&
             <div className={"row"}>
-                <div className="labels col-md-3">
+                <div className={"col-md-12"}>
+                    <h5>Top {data.length} labels</h5>
+                </div>
+
+                <div className="labels col-md-12">
                     {
                         data.map((tokens, i) => (
-                            <div key={tokens.label}>
-                                <Label token={tokens} onClick={(token) => this.selectedLabel(token)}/>
-                            </div>
+                            <Label key={tokens.label} token={tokens}
+                                   onClick={(token) => this.selectedLabel(token)}/>
                         ))
                     }
                 </div>
                 {/*<div className={"col-md-9"}>*/}
                 {/*<Manually/>*/}
                 {/*</div>*/}
-                <div className={"col-md-9"}>
-                    {/*<HighCharts/>*/}
-                    {/*<Manually/>*/}
-                    {/*<HorizontalStackedBarChart/>*/}
-                </div>
-                <div className="labels col-md-9">
-                    <ReviewTable reviews={this.state.selectedLabel}/>
-                </div>
+                {/*<div className={"col-md-9"}>*/}
+                {/*/!*<HighCharts/>*!/*/}
+                {/*/!*<Manually/>*!/*/}
+                {/*/!*<HorizontalStackedBarChart/>*!/*/}
+                {/*</div>*/}
+                {/*<div className="labels col-md-9">*/}
+                {/*<ReviewTable reviews={this.state.selectedLabel}/>*/}
+                {/*</div>*/}
             </div>
         );
     }

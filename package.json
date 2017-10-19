@@ -4,9 +4,12 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "bootstrap": "^4.0.0-beta",
     "component-horizontal-stacked-bar": "^2.0.1",
     "d3": "^4.10.2",
+    "jquery": "^3.2.1",
     "lodash": "^4.17.4",
+    "popper.js": "^1.12.5",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",

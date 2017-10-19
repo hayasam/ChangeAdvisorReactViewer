@@ -8,7 +8,8 @@ class Label extends Component {
         const reviewCount = token.reviews.length;
         const score = token.score;
         return (
-            <p onClick={() => this.props.onClick(token)}><a>{label} ({reviewCount}): {score.toFixed(5)}</a></p>
+            <button onClick={() => this.props.onClick(token)} className={"btn btn-link"}>{label}
+                ({reviewCount}): {score.toFixed(5)}</button>
         )
     }
 }

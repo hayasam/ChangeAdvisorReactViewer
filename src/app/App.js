@@ -4,6 +4,7 @@ import DistributionPieChart from "../pie-chart/PieChart";
 import Labels from "../label/Labels";
 import axios from 'axios';
 import PayloadForm from "../payload-form/PayloadForm";
+import CategoryTable from "../category-table/CategoryTable";
 
 //const url = 'http://192.168.0.39:8080';
 const url = 'http://localhost:8080';
@@ -22,7 +23,8 @@ class App extends Component {
             formData: {limit: 10, ngrams: 1},
             numberOfReviewForSelectedCategory: 1000,
             responseTime: 1,
-            totalReviews: 1
+            totalReviews: 1,
+            selectedLabel: null
         };
         this.componentDidMount.bind(this);
     }
@@ -42,7 +44,11 @@ class App extends Component {
                 }));
 
             if (distribution.length > 0) {
-                this.setState({selectedCategory: distribution[0], data: distribution, totalReviews: responseBody.totalReviews});
+                this.setState({
+                    selectedCategory: distribution[0],
+                    data: distribution,
+                    totalReviews: responseBody.totalReviews
+                });
                 this.categoryChosen(0);
             }
         });
@@ -76,11 +82,9 @@ class App extends Component {
                     <div className={"col-md-3 card"}>
                         <DistributionPieChart distribution={this.state.data} viewBoxWidth={50}
                                               onClick={(sector) => this.categoryChosen(sector)}/>
-                        <hr />
+                        <hr/>
                         <h4>Total Reviews: {this.state.totalReviews}</h4>
-                    </div>
 
-                    <div className={"col-md-9 card"}>
                         {this.state.selectedCategory &&
                         <h3>{this.state.selectedCategory.label}</h3>
                         }
@@ -89,11 +93,25 @@ class App extends Component {
                             ({this.state.responseTime}
                             seconds)</p>
                         }
-                        <Labels isLoading={this.state.isLoading} labels={this.state.labels}/>
+
+                        <Labels isLoading={this.state.isLoading} labels={this.state.labels}
+                                onClick={(label) => this.selectedLabel(label)}/>
+                    </div>
+
+                    <div className={"col-md-9 card"}>
+                        {this.state.selectedLabel &&
+                        <h3>Reviews for Label: {this.state.selectedLabel.label}</h3>
+                        }
+                        <CategoryTable label={this.state.selectedLabel}/>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    selectedLabel(label) {
+        console.log(label);
+        this.setState({selectedLabel: label});
     }
 
     categoryChosen(tmp) {
