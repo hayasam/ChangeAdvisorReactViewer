@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import ReviewTable from "../review-table/ReviewTable";
+import _ from "lodash";
+import CategoryReport from "./CategoryReport";
 
 class CategoryTable extends Component {
 
@@ -6,64 +9,46 @@ class CategoryTable extends Component {
         super();
     }
 
+    static computeAvg(reviews) {
+        if (!reviews || !reviews.length) {
+            return 0;
+        }
+        return _.round(_.mean(_.map(reviews, r => r.numberOfStars)), 2);
+    }
+
     render() {
         const label = this.props.label;
         console.log(label);
 
+        if (!label || !label.reviews) {
+            return <div/>;
+        }
+
+        const reviews = label.reviews;
+
+        const featureRequest = reviews.filter(r => r.category === 'FEATURE REQUEST');
+        const infoSeeking = reviews.filter(r => r.category === 'INFORMATION SEEKING');
+        const infoGiving = reviews.filter(r => r.category === 'INFORMATION GIVING');
+        const problemDiscover = reviews.filter(r => r.category === 'PROBLEM DISCOVERY');
+        const other = reviews.filter(r => r.category === 'OTHER');
+
         return (
-            <div className={"row"}>
-                <div className={"col-md-2 text-center"}>
-                    <h3>Nothing</h3>
-                    <div className={"row"}>
-                        <div className={"col-md-12"}>
-                            <p>Avg rating: 10%</p>
-                            <p>N ratings</p>
-                        </div>
-                    </div>
+            <div>
+                {label && label.reviews &&
+                <div className={"card-body card-deck"}>
+                    <CategoryReport title={"All Categories"} reviews={label.reviews}/>
+                    <CategoryReport title={"Feature Request"} reviews={featureRequest}/>
+                    <CategoryReport title={"Information Seeking"} reviews={infoSeeking}/>
+                    <CategoryReport title={"Problem Discovery"} reviews={problemDiscover}/>
+                    <CategoryReport title={"Information Giving"} reviews={infoGiving}/>
+                    <CategoryReport title={"Other"} reviews={other}/>
                 </div>
-                <div className={"col-md-2 text-center"}>
-                    <h3>Bug</h3>
-                    <div className={"row"}>
-                        <div className={"col-md-12"}>
-                            <p>Avg rating: 10%</p>
-                            <p>N ratings</p>
-                        </div>
-                    </div>
-                </div>
-                <div className={"col-md-2 text-center"}>
-                    <h3>Feature Request</h3>
-                    <div className={"row"}>
-                        <div className={"col-md-12"}>
-                            <p>Avg rating: 10%</p>
-                            <p>N ratings</p>
-                        </div>
-                    </div>
-                </div>
-                <div className={"col-md-2 text-center"}>
-                    <h3>Other</h3>
-                    <div className={"row"}>
-                        <div className={"col-md-12"}>
-                            <p>Avg rating: 10%</p>
-                            <p>N ratings</p>
-                        </div>
-                    </div>
-                </div>
-                <div className={"col-md-2 text-center"}>
-                    <h3>Information Discovery</h3>
-                    <div className={"row"}>
-                        <div className={"col-md-12"}>
-                            <p>Avg rating: 10%</p>
-                            <p>N ratings</p>
-                        </div>
-                    </div>
-                </div>
-                <div className={"col-md-2 text-center"}>
-                    <h3>Information Giving</h3>
-                    <div className={"row"}>
-                        <div className={"col-md-12"}>
-                            <p>Avg rating: 10%</p>
-                            <p>N ratings</p>
-                        </div>
+                }
+                <div className={"row"}>
+                    <div className={"col-md-12"}>
+                        {label && label.reviews &&
+                        <ReviewTable reviews={label.reviews}/>
+                        }
                     </div>
                 </div>
             </div>

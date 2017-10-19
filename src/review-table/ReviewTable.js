@@ -1,26 +1,23 @@
 import React, {Component} from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import _ from "lodash";
+import CategoryTable from "../category-table/CategoryTable";
 
 class ReviewTable extends Component {
 
     static capitalizeFirstLetter(string) {
-        console.log(string);
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
     render() {
         let reviews = this.props.reviews || [];
-        if (reviews) {
-            reviews = reviews.reviews;
-        }
-        console.log(reviews);
+        const categories = new Set(reviews.map(r => r.category));
 
         const columns = [
             {
                 Header: 'Review Date',
                 id: 'reviewDate',
+                filterable: false,
                 accessor: review => new Date(review.reviewDate).toDateString()
             }, {
                 Header: 'Review',
@@ -28,12 +25,26 @@ class ReviewTable extends Component {
             }, {
                 Header: 'Category',
                 id: 'category',
-                accessor: review => ReviewTable.capitalizeFirstLetter(review.category)
+                accessor: review => ReviewTable.capitalizeFirstLetter(review.category),
+                filterMethod: (filter, row) => {
+                    return filter.value === 'all' || filter.value === row._original.category;
+                },
+                Filter: ({filter, onChange}) =>
+                    <select
+                        onChange={event => onChange(event.target.value)}
+                        style={{width: "100%"}}
+                        value={filter ? filter.value : "all"}
+                    >
+                        <option value="all">Show All</option>
+                        {
+                            Array.from(categories).map(cat => <option key={cat} value={cat}>{cat}</option>)
+                        }
+                    </select>
             }, {
                 Header: 'Rating',
                 accessor: 'numberOfStars',
                 Footer: (
-                    <span><strong>Average:</strong>{" "}{_.round(_.mean(_.map(reviews, r => r.numberOfStars)), 2)}</span>)
+                    <span><strong>Average:</strong>{" "}{CategoryTable.computeAvg(reviews)}</span>)
             }
         ];
 
@@ -51,36 +62,12 @@ class ReviewTable extends Component {
             )
         }
 
-        return <ReactTable data={reviews} columns={columns} defaultPageSize={10}/>
-
-        // return (
-        //     <table className={"table table-striped table-bordered"}>
-        //         <thead>
-        //         <tr>
-        //             <th>#</th>
-        //             <th>Review</th>
-        //             <th># Stars</th>
-        //         </tr>
-        //         </thead>
-        //         <tbody>
-        //         {reviews.length > 0 &&
-        //         reviews.map((review, i) => (
-        //             <tr key={review.id}>
-        //                 <td>
-        //                     {new Date(review.reviewDate).toDateString()}
-        //                 </td>
-        //                 <td>
-        //                     {review.reviewText}
-        //                 </td>
-        //                 <td>
-        //                     {review.numberOfStars}
-        //                 </td>
-        //             </tr>
-        //         ))
-        //         }
-        //         </tbody>
-        //     </table>
-        // )
+        return <ReactTable filterable
+                           defaultFilterMethod={(filter, row, column) => {
+                               const id = filter.pivotId || filter.id;
+                               return row[id] !== undefined ? String(row[id]).toLowerCase().includes(filter.value.toLowerCase()) : true
+                           }}
+                           data={reviews} columns={columns} defaultPageSize={20}/>
     }
 }
 

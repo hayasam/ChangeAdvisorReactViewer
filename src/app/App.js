@@ -78,7 +78,7 @@ class App extends Component {
                     </div>
                 </div>
 
-                <div className={"row"}>
+                <div className={"card-deck"}>
                     <div className={"col-md-3 card"}>
                         <DistributionPieChart distribution={this.state.data} viewBoxWidth={50}
                                               onClick={(sector) => this.categoryChosen(sector)}/>
@@ -100,7 +100,7 @@ class App extends Component {
 
                     <div className={"col-md-9 card"}>
                         {this.state.selectedLabel &&
-                        <h3>Reviews for Label: {this.state.selectedLabel.label}</h3>
+                        <h3 className={"card-title"}>Label: {this.state.selectedLabel.label}</h3>
                         }
                         <CategoryTable label={this.state.selectedLabel}/>
                     </div>
