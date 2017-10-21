@@ -8,6 +8,10 @@
     box-sizing: border-box;
 }
 
+.project-card:hover {
+    text-decoration: underline;
+}
+
 .project-card-header {
     position: relative;
     z-index: 10;

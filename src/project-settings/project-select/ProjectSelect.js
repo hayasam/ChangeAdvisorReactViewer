@@ -31,10 +31,10 @@ class ProjectSelect extends Component {
         return (
             <div >{
                 this.state.projects.map((project, id) => (
-                    <div key={project.id} className={"row project-card"}>
+                    <div key={project.id} className={"row project-card"} onClick={() => this.projectSelected(project.id)}>
                         <div className={"project-card-header clearfix"}>
                             <h4>
-                                <a onClick={() => this.projectSelected(project.id)}>
+                                <a href={"#"}>
                                     {project.appName}
                                 </a>
                             </h4>

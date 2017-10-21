@@ -1,7 +1,7 @@
 import React from 'react';
 import {Component} from "react/lib/ReactBaseClasses";
-import ProjectForm from "../project-form/ProjectForm";
-import ProjectSelect from "../project-select/ProjectSelect";
+import ProjectForm from "./project-form/ProjectForm";
+import ProjectSelect from "./project-select/ProjectSelect";
 import axios from 'axios';
 import './ProjectSettings.css'
 
