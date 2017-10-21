@@ -18,6 +18,7 @@ class ReviewTable extends Component {
                 Header: 'Review Date',
                 id: 'reviewDate',
                 filterable: false,
+                maxWidth: "150",
                 accessor: review => new Date(review.reviewDate).toDateString()
             }, {
                 Header: 'Review',
@@ -25,6 +26,7 @@ class ReviewTable extends Component {
             }, {
                 Header: 'Category',
                 id: 'category',
+                maxWidth: "200",
                 accessor: review => ReviewTable.capitalizeFirstLetter(review.category),
                 filterMethod: (filter, row) => {
                     return filter.value === 'all' || filter.value === row._original.category;
@@ -43,6 +45,8 @@ class ReviewTable extends Component {
             }, {
                 Header: 'Rating',
                 accessor: 'numberOfStars',
+                maxWidth: "100",
+                className: "text-center",
                 Footer: (
                     <span><strong>Average:</strong>{" "}{CategoryTable.computeAvg(reviews)}</span>)
             }

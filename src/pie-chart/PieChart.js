@@ -72,7 +72,10 @@ export default class DistributionPieChart extends Component {
         }));
 
         return (
-            <div className={"row"} onClick={() => this.props.onClick(expandedSector)}>
+            <div
+                className={"row"}
+                // onClick={() => this.props.onClick(expandedSector)}
+            >
                 <PieChart className={"col-md-6 pie-chart"}
                           data={data}
                           expandedSector={expandedSector}
