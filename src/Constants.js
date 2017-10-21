@@ -14,3 +14,5 @@ class Constants {
         Constants.OTHER,
     ]
 }
+
+export default Constants;
