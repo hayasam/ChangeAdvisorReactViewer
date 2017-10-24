@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import _ from "lodash";
+import {Link} from "react-router-dom";
 
 class CategoryReport extends Component {
 
@@ -24,8 +25,11 @@ class CategoryReport extends Component {
                 </div>
                 {this.props.onclick &&
                 <div className={"card-footer"}>
-                    <small className={"text-muted"}><a href={"#"} onClick={() => this.props.onclick(category)}>GOTO
-                        Classes</a></small>
+                    <small className={"text-muted"}>
+                        <Link to='/results' onClick={() => this.props.onclick(category)}>GOTO Classes</Link>
+                        {/*<a href={"#"} onClick={() => this.props.onclick(category)}>GOTO*/}
+                            {/*Classes</a>*/}
+                    </small>
                 </div>
                 }
             </div>

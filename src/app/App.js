@@ -115,7 +115,7 @@ class App extends Component {
                         {this.state.selectedLabel &&
                         <h3 className={"card-title"}>Label: {this.state.selectedLabel.label}</h3>
                         }
-                        <CategoryTable label={this.state.selectedLabel}/>
+                        <CategoryTable label={this.state.selectedLabel} gotoClassesClicked={(result) => this.props.gotoClassesClicked(result)}/>
                     </div>
                 </div>
             </div>

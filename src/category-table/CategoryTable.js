@@ -3,10 +3,6 @@ import ReviewTable from "../review-table/ReviewTable";
 import _ from "lodash";
 import CategoryReport from "./CategoryReport";
 import Constants from "../Constants.js";
-import axios from 'axios';
-
-const url = 'http://localhost:8080';
-const appName = "com.frostwire.android";
 
 class CategoryTable extends Component {
 
@@ -18,11 +14,9 @@ class CategoryTable extends Component {
     }
 
     gotoClassesClicked(category) {
-        console.log("GOTO " + category);
         const payload = {app: "com.frostwire.android", category: category};
         const label = this.props.label;
-        console.log(label);
-        axios.post(`${url}/reviews/linking?label=${label.label}`, payload);
+        this.props.gotoClassesClicked({payload: payload, label: label});
     }
 
     render() {

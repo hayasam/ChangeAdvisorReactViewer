@@ -1,0 +1,4 @@
+.reviews-results {
+    max-height: 500px;
+    overflow: scroll;
+}
