@@ -37,12 +37,20 @@ class ProjectForm extends Component {
         console.log(this.props.hasError);
         return (
             <div>
-                <form onSubmit={this.handleSubmit} className={`form ${this.props.hasSuccess ? 'has-success' : ''}`}>
+                <form onSubmit={this.handleSubmit} className={`form ${this.props.hasError ? 'has-error' : 'has-success'}`}>
                     <div className={"form-group"}>
                         <label htmlFor={"appName"} className={"control-label"}>
                             Application Name
                         </label>
                         <input name={"appName"} className={"form-control"} value={this.state.appName}
+                               onChange={this.handleChange}/>
+                    </div>
+
+                    <div className={"form-group"}>
+                        <label htmlFor={"googlePlayId"} className={"control-label"}>
+                            Google Play ID
+                        </label>
+                        <input name={"googlePlayId"} className={"form-control"} value={this.state.googlePlayId}
                                onChange={this.handleChange}/>
                     </div>
 
