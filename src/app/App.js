@@ -24,33 +24,40 @@ class App extends Component {
             numberOfReviewForSelectedCategory: 1000,
             responseTime: 1,
             totalReviews: 1,
-            selectedLabel: null
+            selectedLabel: null,
+            isServerUp: true
         };
         this.componentDidMount.bind(this);
     }
 
     componentDidMount() {
-        this.setState({appName: appName});
-        const payload = {app: appName};
-        console.log("Sending post request with data: " + JSON.stringify(payload));
+        const isServerUpPromise = axios.get(`${url}/is-up`);
+        isServerUpPromise.then(response => {
+            this.setState({appName: appName, isServerUp: true});
+            const payload = {app: appName};
+            console.log("Sending post request with data: " + JSON.stringify(payload));
 
-        const promise = axios.post(`${url}/reviews/distribution`, payload);
-        promise.then(res => {
-            const responseBody = res.data;
-            const distribution = responseBody.distribution
-                .map(obj => ({
-                    label: obj.category,
-                    value: obj.reviewSize
-                }));
+            const promise = axios.post(`${url}/reviews/distribution`, payload);
+            promise.then(res => {
+                const responseBody = res.data;
+                const distribution = responseBody.distribution
+                    .map(obj => ({
+                        label: obj.category,
+                        value: obj.reviewSize
+                    }));
 
-            if (distribution.length > 0) {
-                this.setState({
-                    selectedCategory: distribution[0],
-                    data: distribution,
-                    totalReviews: responseBody.totalReviews
-                });
-                this.categoryChosen(0);
-            }
+                if (distribution.length > 0) {
+                    this.setState({
+                        selectedCategory: distribution[0],
+                        data: distribution,
+                        totalReviews: responseBody.totalReviews
+                    });
+                    this.categoryChosen(0);
+                }
+            });
+        }).catch(error => {
+            this.setState({isServerUp: false});
+            console.log(error)
         });
     }
 
@@ -65,6 +72,12 @@ class App extends Component {
     render() {
         return (
             <div className={"col-md-12"}>
+                {!this.state.isServerUp &&
+                <div className={"alert alert-danger"} role="alert">
+                    There seems to be no connection to the server! Check the server and try re-loading this page.
+                </div>
+                }
+
                 <div className={"row"}>
                     <div className={"col-md-12"}>
                         <h3>{this.state.appName} - Reviews.</h3>
