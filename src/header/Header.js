@@ -21,11 +21,11 @@ const Header = () => (
                         <Link className={"nav-link"} to='/'>Home</Link>
                     </li>
                     <li className={"nav-item"}>
+                        <Link className={"nav-link"} to='/project'>Project</Link>
+                    </li>
+                    <li className={"nav-item"}>
                         <Link className={"nav-link"} to='/settings'>Settings</Link>
                     </li>
-                    {/*<li className={"nav-item"}>*/}
-                    {/*<a className={"nav-link disabled"} href="#">Disabled</a>*/}
-                    {/*</li>*/}
                 </ul>
             </div>
         </nav>

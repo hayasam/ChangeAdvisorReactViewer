@@ -6,6 +6,7 @@ import './AppRouter.css'
 import Header from "./header/Header";
 import LinkingResults from "./linking-results/LinkingResults";
 import axios from 'axios';
+import Projects from "./projects-overview/Projects";
 
 const url = 'http://localhost:8080';
 const appName = "com.frostwire.android";
@@ -20,10 +21,16 @@ class AppRouter extends Component {
         super();
 
         this.state = {
-            propsForLinkingResults: null
+            propsForLinkingResults: null,
+            selectedProject: null
         };
 
         this.gotoClassesClicked.bind(this);
+        this.projectSelected.bind(this);
+    }
+
+    projectSelected(projectId) {
+        console.log(projectId);
     }
 
     gotoClassesClicked(params) {
@@ -41,13 +48,17 @@ class AppRouter extends Component {
     }
 
     render() {
+        console.log(this.props.match);
         const propsForLinkingResults = this.state.propsForLinkingResults;
+        const project = this.state.selectedProject;
         return (
             <div className={"container-fluid"}>
                 <Header/>
                 <Switch>
-                    <Route exact path='/'
-                           render={() => (<App gotoClassesClicked={(res) => this.gotoClassesClicked(res)}/>)}/>
+                    <Route exact path='/' render={() => <Projects projectSelected={this.projectSelected}/>}/>
+                    <Route path='/project/:id'
+                           render={() => (
+                               <App project={project} gotoClassesClicked={(res) => this.gotoClassesClicked(res)}/>)}/>
                     <Route path='/settings' component={ProjectSettings}/>
                     <Route path='/results'
                            render={() => (<LinkingResults params={propsForLinkingResults}/>)}/>

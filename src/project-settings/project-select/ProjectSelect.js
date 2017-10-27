@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Constants from '../../Constants.js'
+import {Link} from 'react-router-dom';
 import './ProjectSelect.css';
-
-const url = 'http://localhost:8080';
 
 class ProjectSelect extends Component {
     constructor() {
@@ -14,29 +14,22 @@ class ProjectSelect extends Component {
     }
 
     componentDidMount() {
-        console.log("Getting list of projects");
-
-        const promise = axios.get(`${url}/project`);
+        const promise = axios.get(`${Constants.SERVER_URL}/projects`);
         promise.then(res => {
             const responseBody = res.data;
             this.setState({projects: responseBody});
         });
     }
 
-    projectSelected(projectId) {
-        this.props.projectSelected(projectId);
-    }
-
     render() {
         return (
-            <div >{
+            <div className={"col-md-12"}>{
                 this.state.projects.map((project, id) => (
-                    <div key={project.id} className={"row project-card"} onClick={() => this.projectSelected(project.id)}>
+                    <div key={project.id} className={"row project-card"}
+                         onClick={() => this.props.projectSelected(project.id)}>
                         <div className={"project-card-header clearfix"}>
                             <h4>
-                                <a href={"#"}>
-                                    {project.appName}
-                                </a>
+                                <Link to={`project/${project.id}`}>{project.appName}</Link>
                             </h4>
                             <div className={"project-card-dates pull-right"}>
                                 Last review import: xx-xx-xxxx

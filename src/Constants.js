@@ -1,5 +1,7 @@
 class Constants {
 
+    static SERVER_URL = "http://localhost:8080";
+
     static FEATURE_REQUEST = "FEATURE REQUEST";
     static INFO_SEEKING = "INFORMATION SEEKING";
     static INFO_GIVING = "INFORMATION GIVING";
