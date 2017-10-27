@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Route, Switch} from 'react-router-dom'
 import ProjectSettings from './project-settings/ProjectSettings'
 import App from "./app/App";
+import './AppRouter.css'
 import Header from "./header/Header";
 import LinkingResults from "./linking-results/LinkingResults";
 import axios from 'axios';
