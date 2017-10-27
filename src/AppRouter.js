@@ -71,8 +71,9 @@ class AppRouter extends Component {
                 }
 
                 <Header/>
-                <Switch>
-                    <Route exact path='/' render={() => <Projects projectSelected={this.projectSelected}/>}/>
+                {this.state.isServerUp &&
+                < Switch>
+                    < Route exact path='/' render={() => <Projects projectSelected={this.projectSelected}/>}/>
                     <Route path='/project/:id'
                            render={() => (
                                <App project={project} gotoClassesClicked={(res) => this.gotoClassesClicked(res)}/>)}/>
@@ -80,6 +81,7 @@ class AppRouter extends Component {
                     <Route path='/results'
                            render={() => (<LinkingResults params={propsForLinkingResults}/>)}/>
                 </Switch>
+                }
             </div>
         )
     }
