@@ -22,11 +22,22 @@ class AppRouter extends Component {
 
         this.state = {
             propsForLinkingResults: null,
-            selectedProject: null
+            selectedProject: null,
+            showAlert: false
         };
 
         this.gotoClassesClicked.bind(this);
         this.projectSelected.bind(this);
+    }
+
+    componentDidMount() {
+        const isServerUpPromise = axios.get(`${url}/is-up`);
+        isServerUpPromise.then(response => {
+            this.setState({appName: appName, isServerUp: true});
+        }).catch(error => {
+            this.setState({isServerUp: false});
+            console.log(error)
+        });
     }
 
     projectSelected(projectId) {
@@ -53,6 +64,12 @@ class AppRouter extends Component {
         const project = this.state.selectedProject;
         return (
             <div className={"container-fluid"}>
+                {!this.state.isServerUp &&
+                <div className={"alert alert-danger"} role="alert">
+                    There seems to be no connection to the server! Check the server and try re-loading this page.
+                </div>
+                }
+
                 <Header/>
                 <Switch>
                     <Route exact path='/' render={() => <Projects projectSelected={this.projectSelected}/>}/>
