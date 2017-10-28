@@ -3,6 +3,7 @@ import {Component} from "react/lib/ReactBaseClasses";
 import ProjectForm from "./project-form/ProjectForm";
 import axios from 'axios';
 import './ProjectSettings.css'
+import FetchReviewsForm from "./FetchReviewsForm";
 
 const url = 'http://localhost:8080';
 
@@ -45,22 +46,28 @@ class ProjectSettings extends Component {
 
     render() {
         const project = this.props.project;
+        if (!project) {
+            return <div>Select a project first!</div>
+        }
+        console.log(project);
 
         return (
             <div className={"container"}>
                 <div className={"col-md-12"}>
-
-                    {project &&
                     <ProjectForm hasError={this.state.hasError} hasSuccess={this.state.showAlert}
                                  handleSubmit={(formData) => this.handleFormSubmit(formData)}
                                  value={project}/>
-                    }
+
                 </div>
 
                 <hr/>
 
                 <div className={this.state.showAlert ? "col-md-12 fade in" : "hidden col-md-12"} role="alert">
                     <p className={"alert alert-success"}>Success!</p>
+                </div>
+
+                <div className={"col-md-12"}>
+                    <FetchReviewsForm projectId={project.id}/>
                 </div>
             </div>
         )

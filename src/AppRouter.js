@@ -71,6 +71,7 @@ class AppRouter extends Component {
     render() {
         const propsForLinkingResults = this.state.propsForLinkingResults;
         const project = this.state.selectedProject;
+        const projectId = project ? project.id : '';
 
         return (
             <div className={"container-fluid"}>
@@ -80,7 +81,8 @@ class AppRouter extends Component {
                 </div>
                 }
 
-                <Header/>
+                <Header projectId={projectId}/>
+
                 {this.state.isServerUp &&
                 <Switch>
                     <Route exact path='/'
