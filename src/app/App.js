@@ -3,12 +3,9 @@ import './App.css';
 import DistributionPieChart from "../pie-chart/PieChart";
 import Labels from "../label/Labels";
 import axios from 'axios';
+import Constants from '../Constants';
 import PayloadForm from "../payload-form/PayloadForm";
 import CategoryTable from "../category-table/CategoryTable";
-
-//const url = 'http://192.168.0.39:8080';
-const url = 'http://localhost:8080';
-const appName = "com.frostwire.android";
 
 class App extends Component {
 
@@ -31,11 +28,13 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.setState({appName: appName, isServerUp: true});
-        const payload = {app: appName};
-        console.log("Sending post request with data: " + JSON.stringify(payload));
+        const param = this.props.match.match.params;
+        const projectId = param.id;
+        this.loadDistributionData(projectId);
+    }
 
-        const promise = axios.post(`${url}/reviews/distribution`, payload);
+    loadDistributionData(projectId) {
+        const promise = axios.get(`${Constants.SERVER_URL}/reviews/${projectId}/distribution`);
         promise.then(res => {
             const responseBody = res.data;
             const distribution = responseBody.distribution
@@ -44,6 +43,8 @@ class App extends Component {
                     value: obj.reviewSize
                 }));
 
+
+            this.setState({data: distribution, totalReviews: responseBody.totalReviews});
             if (distribution.length > 0) {
                 this.setState({
                     selectedCategory: distribution[0],
@@ -52,6 +53,16 @@ class App extends Component {
                 });
                 this.categoryChosen(0);
             }
+        });
+    }
+
+    loadProject(projectId) {
+        const loadProject = axios.get(`${Constants.SERVER_URL}/projects/${projectId}`);
+        loadProject.then(response => {
+            console.log(response.data);
+            this.setState({project: response.data});
+        }).catch(error => {
+            console.log(error)
         });
     }
 
@@ -64,11 +75,25 @@ class App extends Component {
     }
 
     render() {
+        const project = this.props.project;
+
+        if (!project) {
+            return (
+                <div className={"col-md-12"}>
+                    <div className={"row"}>
+                        <div className={"col-md-12"}>
+                            <h3>Select a project first!</h3>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
         return (
             <div className={"col-md-12"}>
                 <div className={"row"}>
                     <div className={"col-md-12"}>
-                        <h3>{this.state.appName} - Reviews.</h3>
+                        <h3>{project.appName} - Reviews.</h3>
                     </div>
                 </div>
 
@@ -142,7 +167,7 @@ class App extends Component {
             }, function () {
                 const start = Date.now();
 
-                const promise = axios.post(`${url}/reviews/labels`, payload);
+                const promise = axios.post(`${Constants.SERVER_URL}/reviews/labels`, payload);
                 promise.then(res => {
                     //const posts = res.data.data.children.map(obj => obj.data);
                     const labels = res.data;

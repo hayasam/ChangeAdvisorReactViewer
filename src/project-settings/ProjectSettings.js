@@ -1,7 +1,6 @@
 import React from 'react';
 import {Component} from "react/lib/ReactBaseClasses";
 import ProjectForm from "./project-form/ProjectForm";
-import ProjectSelect from "./project-select/ProjectSelect";
 import axios from 'axios';
 import './ProjectSettings.css'
 
@@ -45,20 +44,16 @@ class ProjectSettings extends Component {
     }
 
     render() {
+        const project = this.props.project;
+
         return (
             <div className={"container"}>
                 <div className={"col-md-12"}>
-                    <h1>Settings!</h1>
-                    <ProjectSelect projectSelected={this.projectSelected}/>
-                </div>
 
-                <hr/>
-
-                <div className={"col-md-12"}>
-                    {this.state.project &&
+                    {project &&
                     <ProjectForm hasError={this.state.hasError} hasSuccess={this.state.showAlert}
                                  handleSubmit={(formData) => this.handleFormSubmit(formData)}
-                                 value={this.state.project}/>
+                                 value={project}/>
                     }
                 </div>
 

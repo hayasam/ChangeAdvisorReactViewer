@@ -7,9 +7,8 @@ import Header from "./header/Header";
 import LinkingResults from "./linking-results/LinkingResults";
 import axios from 'axios';
 import Projects from "./projects-overview/Projects";
+import Constants from "./Constants";
 
-const url = 'http://localhost:8080';
-const appName = "com.frostwire.android";
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
 // and /schedule routes will match any pathname that starts
@@ -31,9 +30,9 @@ class AppRouter extends Component {
     }
 
     componentDidMount() {
-        const isServerUpPromise = axios.get(`${url}/is-up`);
+        const isServerUpPromise = axios.get(`${Constants.SERVER_URL}/is-up`);
         isServerUpPromise.then(response => {
-            this.setState({appName: appName, isServerUp: true});
+            this.setState({isServerUp: true});
         }).catch(error => {
             this.setState({isServerUp: false});
             console.log(error)
@@ -41,7 +40,18 @@ class AppRouter extends Component {
     }
 
     projectSelected(projectId) {
-        console.log(projectId);
+        this.loadProject(projectId);
+    }
+
+    loadProject(projectId) {
+        const loadProject = axios.get(`${Constants.SERVER_URL}/projects/${projectId}`);
+        loadProject.then(response => {
+            console.log(response.data);
+            this.setState({isServerUp: true, selectedProject: response.data});
+        }).catch(error => {
+            this.setState({isServerUp: false});
+            console.log(error)
+        });
     }
 
     gotoClassesClicked(params) {
@@ -51,7 +61,7 @@ class AppRouter extends Component {
         const propsForLinkingResults = {params};
         this.setState({propsForLinkingResults: propsForLinkingResults});
 
-        const promise = axios.post(`${url}/reviews/linking?label=${label.label}`, payload);
+        const promise = axios.post(`${Constants.SERVER_URL}/reviews/linking?label=${label.label}`, payload);
         promise.then(response => {
             const propsForLinkingResults = {results: response.data, params};
             this.setState({propsForLinkingResults: propsForLinkingResults});
@@ -59,9 +69,9 @@ class AppRouter extends Component {
     }
 
     render() {
-        console.log(this.props.match);
         const propsForLinkingResults = this.state.propsForLinkingResults;
         const project = this.state.selectedProject;
+
         return (
             <div className={"container-fluid"}>
                 {!this.state.isServerUp &&
@@ -72,12 +82,14 @@ class AppRouter extends Component {
 
                 <Header/>
                 {this.state.isServerUp &&
-                < Switch>
-                    < Route exact path='/' render={() => <Projects projectSelected={this.projectSelected}/>}/>
+                <Switch>
+                    <Route exact path='/'
+                           render={() => <Projects projectSelected={(projectId) => this.projectSelected(projectId)}/>}/>
                     <Route path='/project/:id'
-                           render={() => (
-                               <App project={project} gotoClassesClicked={(res) => this.gotoClassesClicked(res)}/>)}/>
-                    <Route path='/settings' component={ProjectSettings}/>
+                           render={(match) => (
+                               <App match={match} project={project}
+                                    gotoClassesClicked={(res) => this.gotoClassesClicked(res)}/>)}/>
+                    <Route path='/settings' render={() => <ProjectSettings project={project}/>}/>
                     <Route path='/results'
                            render={() => (<LinkingResults params={propsForLinkingResults}/>)}/>
                 </Switch>
