@@ -30,8 +30,9 @@ class ProjectSettings extends Component {
     }
 
     handleFormSubmit(formData) {
-        console.log(formData);
         const promise = axios.post(`${Constants.SERVER_URL}/projects/`, formData);
+        this.setState({showAlert: false, showError: false});
+
         promise.then(res => {
             console.log(res.data);
             if (res.status === 200) {
@@ -44,7 +45,7 @@ class ProjectSettings extends Component {
     }
 
     render() {
-        const project = this.props.project;
+        const project = this.state.project ? this.state.project : this.props.project;
         if (!project) {
             return <div>Select a project first!</div>
         }
@@ -59,10 +60,14 @@ class ProjectSettings extends Component {
 
                 </div>
 
-                <hr/>
+                <br/>
 
-                <div className={this.state.showAlert ? "col-md-12 fade in" : "hidden col-md-12"} role="alert">
+                <div className={this.state.showAlert ? "col-md-12 animated fadeIn" : "hidden col-md-12"} role="alert">
                     <p className={"alert alert-success"}>Success!</p>
+                </div>
+
+                <div className={this.state.hasError ? "col-md-12 animated fadeIn" : "hidden col-md-12"} role="alert">
+                    <p className={"alert alert-danger"}>Please check the form!</p>
                 </div>
 
                 <div className={"col-md-12"}>
