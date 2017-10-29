@@ -28,22 +28,24 @@ class FetchReviewsForm extends Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <div className={"form-group"}>
-                        <label className={"control-label"} htmlFor={"limit-reviews"}>How many reviews should I retrieve?
-                            (max)</label>
-                        <input className={"form-control"} id={"limit-reviews"} onChange={this.handleChange}
-                               value={this.state.limit} type={"numeric"}/>
+            <div className={"card card-shadow"}>
+                <div className={"card-body"}>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className={"form-group"}>
+                            <label className={"control-label"} htmlFor={"limit-reviews"}>How many reviews should I
+                                retrieve?
+                                (max)</label>
+                            <input className={"form-control"} id={"limit-reviews"} onChange={this.handleChange}
+                                   value={this.state.limit} type={"numeric"}/>
+                        </div>
+                        <button className={"btn btn-primary"} type="submit">Fetch Reviews</button>
+                    </form>
+
+                    <div className={this.state.jobStatusId < 0 ? "col-md-12 fade in" : "col-md-12"} role="alert">
+                        <p className={"alert alert-success"}>For status update goto <a
+                            href={`${Constants.SERVER_URL}/status/${this.state.jobStatusId}`}>Status update</a></p>
                     </div>
-                    <button className={"btn btn-primary"} type="submit">Fetch Reviews</button>
-                </form>
-
-                <div className={this.state.jobStatusId < 0 ? "col-md-12 fade in" : "col-md-12"} role="alert">
-                    <p className={"alert alert-success"}>For status update goto <a
-                        href={`${Constants.SERVER_URL}/status/${this.state.jobStatusId}`}>Status update</a></p>
                 </div>
-
             </div>
         )
     }

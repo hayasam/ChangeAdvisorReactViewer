@@ -14,6 +14,15 @@ import Constants from "./Constants";
 // and /schedule routes will match any pathname that starts
 // with /roster or /schedule. The / route will only match
 // when the pathname is exactly the string "/"
+
+const emptyProject = {
+    appName : '',
+    googlePlayId : '',
+    path : '',
+    remoteUrl : '',
+    cronSchedule : ''
+};
+
 class AppRouter extends Component {
 
     constructor() {
@@ -98,6 +107,7 @@ class AppRouter extends Component {
                                    <App match={match} project={project}
                                         gotoClassesClicked={(res) => this.gotoClassesClicked(res)}/>)}/>
                         <Route path='/settings' render={() => <ProjectSettings project={project}/>}/>
+                        <Route path='/new' render={() => <ProjectSettings project={emptyProject}/>}/>
                         <Route path='/results'
                                render={() => (<LinkingResults params={propsForLinkingResults}/>)}/>
                     </Switch>

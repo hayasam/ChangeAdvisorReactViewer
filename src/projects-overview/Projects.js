@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ProjectSelect from "../project-settings/project-select/ProjectSelect";
 import './Projects.css';
+import {Link} from "react-router-dom";
 
 class Projects extends Component {
 
@@ -16,8 +17,8 @@ class Projects extends Component {
                                 <p className={"card-text"}>Some quick example text to build on the card title and make
                                     up
                                     the bulk of the card's content.</p>
-                                <a href="#" className={"card-link"}>Card link</a>
-                                <a href="#" className={"card-link"}>Another link</a>
+                                <Link className={"card-link"} to='/new'>Add new Project</Link>
+                                {/*<a href="#" className={"card-link"}>Another link</a>*/}
                             </div>
                         </div>
                     </div>
