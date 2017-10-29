@@ -25,7 +25,7 @@ class ProjectSelect extends Component {
         return (
             <div className={"col-md-12"}>{
                 this.state.projects.map((project, id) => (
-                    <div key={project.id} className={"row project-card"}
+                    <div key={project.id} className={"row project-card card-shadow"}
                          onClick={() => this.props.projectSelected(project.id)}>
                         <div className={"project-card-header clearfix"}>
                             <h4>

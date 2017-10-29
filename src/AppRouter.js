@@ -81,21 +81,28 @@ class AppRouter extends Component {
                 </div>
                 }
 
-                <Header projectId={projectId}/>
+                <div className={"row"}>
+                    <Header projectId={projectId}/>
+                </div>
 
-                {this.state.isServerUp &&
-                <Switch>
-                    <Route exact path='/'
-                           render={() => <Projects projectSelected={(projectId) => this.projectSelected(projectId)}/>}/>
-                    <Route path='/project/:id'
-                           render={(match) => (
-                               <App match={match} project={project}
-                                    gotoClassesClicked={(res) => this.gotoClassesClicked(res)}/>)}/>
-                    <Route path='/settings' render={() => <ProjectSettings project={project}/>}/>
-                    <Route path='/results'
-                           render={() => (<LinkingResults params={propsForLinkingResults}/>)}/>
-                </Switch>
-                }
+                <br/>
+
+                <div className={"row"}>
+                    {this.state.isServerUp &&
+                    <Switch>
+                        <Route exact path='/'
+                               render={() => <Projects
+                                   projectSelected={(projectId) => this.projectSelected(projectId)}/>}/>
+                        <Route path='/project/:id'
+                               render={(match) => (
+                                   <App match={match} project={project}
+                                        gotoClassesClicked={(res) => this.gotoClassesClicked(res)}/>)}/>
+                        <Route path='/settings' render={() => <ProjectSettings project={project}/>}/>
+                        <Route path='/results'
+                               render={() => (<LinkingResults params={propsForLinkingResults}/>)}/>
+                    </Switch>
+                    }
+                </div>
             </div>
         )
     }
