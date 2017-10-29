@@ -4,8 +4,7 @@ import ProjectForm from "./project-form/ProjectForm";
 import axios from 'axios';
 import './ProjectSettings.css'
 import FetchReviewsForm from "./FetchReviewsForm";
-
-const url = 'http://localhost:8080';
+import Constants from "../Constants";
 
 class ProjectSettings extends Component {
 
@@ -22,7 +21,7 @@ class ProjectSettings extends Component {
 
     projectSelected(projectId) {
         this.setState({showAlert: false});
-        const promise = axios.get(`${url}/project/${projectId}`);
+        const promise = axios.get(`${Constants.SERVER_URL}/projects/${projectId}`);
         promise.then(res => {
             const responseBody = res.data;
             responseBody.cronSchedule = responseBody.cronSchedule || '';
@@ -32,7 +31,7 @@ class ProjectSettings extends Component {
 
     handleFormSubmit(formData) {
         console.log(formData);
-        const promise = axios.post(`${url}/project/`, formData);
+        const promise = axios.post(`${Constants.SERVER_URL}/projects/`, formData);
         promise.then(res => {
             console.log(res.data);
             if (res.status === 200) {
