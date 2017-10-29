@@ -48,7 +48,7 @@ class ReviewTable extends Component {
                 maxWidth: "100",
                 className: "text-center",
                 Footer: (
-                    <span><strong>Average:</strong>{" "}{CategoryTable.computeAvg(reviews)}</span>)
+                    <span><strong>Avg:</strong>{" "}{CategoryTable.computeAvg(reviews)}</span>)
             }
         ];
 
