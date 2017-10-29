@@ -105,27 +105,31 @@ class App extends Component {
                 </div>
 
                 <div className={"card-deck"}>
-                    <div className={"col-md-3 card"}>
-                        <DistributionPieChart distribution={this.state.data} viewBoxWidth={50}
-                                              onClick={(sector) => this.categoryChosen(sector)}/>
-                        <hr/>
-                        <h4>Total Reviews: {this.state.totalReviews}</h4>
-                        {this.state.selectedCategory &&
-                        <p className={"help-block"}>{this.state.numberOfReviewForSelectedCategory} Reviews
-                            ({this.state.responseTime}
-                            seconds)</p>
-                        }
+                    <div className={"col-md-3 card card-shadow"}>
+                        <div className={"card-body"}>
+                            <DistributionPieChart distribution={this.state.data} viewBoxWidth={50}
+                                                  onClick={(sector) => this.categoryChosen(sector)}/>
+                            <hr/>
+                            <h4>Total Reviews: {this.state.totalReviews}</h4>
+                            {this.state.selectedCategory &&
+                            <p className={"help-block"}>{this.state.numberOfReviewForSelectedCategory} Reviews
+                                ({this.state.responseTime}
+                                seconds)</p>
+                            }
 
-                        <Labels isLoading={this.state.isLoading} labels={this.state.labels}
-                                onClick={(label) => this.selectedLabel(label)}/>
+                            <Labels isLoading={this.state.isLoading} labels={this.state.labels}
+                                    onClick={(label) => this.selectedLabel(label)}/>
+                        </div>
                     </div>
 
-                    <div className={"col-md-9 card"}>
-                        {this.state.selectedLabel &&
-                        <h3 className={"card-title"}>Label: {this.state.selectedLabel.label}</h3>
-                        }
-                        <CategoryTable label={this.state.selectedLabel}
-                                       gotoClassesClicked={(result) => this.props.gotoClassesClicked(result)}/>
+                    <div className={"col-md-9 card card-shadow"}>
+                        <div className={"card-body"}>
+                            {this.state.selectedLabel &&
+                            <h3 className={"card-title"}>Label: {this.state.selectedLabel.label}</h3>
+                            }
+                            <CategoryTable label={this.state.selectedLabel}
+                                           gotoClassesClicked={(result) => this.props.gotoClassesClicked(result)}/>
+                        </div>
                     </div>
                 </div>
             </div>
