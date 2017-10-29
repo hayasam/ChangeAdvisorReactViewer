@@ -110,10 +110,6 @@ class App extends Component {
                                               onClick={(sector) => this.categoryChosen(sector)}/>
                         <hr/>
                         <h4>Total Reviews: {this.state.totalReviews}</h4>
-
-                        {this.state.selectedCategory &&
-                        <h3>{this.state.selectedCategory.label}</h3>
-                        }
                         {this.state.selectedCategory &&
                         <p className={"help-block"}>{this.state.numberOfReviewForSelectedCategory} Reviews
                             ({this.state.responseTime}
