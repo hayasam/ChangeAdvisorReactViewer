@@ -26,36 +26,49 @@ class LinkingResults extends Component {
                 </div>
                 <div className={"row"}>
                     <div className={"col-md-3"}>
-                        <div className={"card reviews-results"}>
-                            <ul>
-                                {
-                                    reviews.map((review, i) => (
-                                        <li key={i}>{review}</li>
-                                    ))
-                                }
-                            </ul>
+                        <div className={"card card-shadow reviews-results"}>
+                            <div className={"card-body"}>
+                                <ul>
+                                    {
+                                        reviews.map((review, i) => (
+                                            <li key={i}>{review}</li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div className={"col-md-9"}>
-                        <div className={"card"}>
-                            <ul>
-                                {
-                                    results.map((r, i) => (
-                                            <li key={i}>
-                                                <p>
-                                                    Component Name: <strong>{r.codeComponentName}</strong>
-                                                </p>
-                                                <p>
-                                                    Similarity: {r.similarity}
-                                                </p>
-                                                <p>
-                                                    Code Component Bag: {r.codeComponentBag.join(" ")}
-                                                </p>
-                                            </li>
+                        <div className={"card card-shadow"}>
+                            <div className={"card-body"}>
+                                <table className={"table table-hover"}>
+                                    <thead>
+                                    <tr>
+                                        <th scope={"col"}>Similarity</th>
+                                        <th scope={"col"}>Component Name</th>
+                                        <th scope={"col"}>Code Component Bag</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {
+                                        results.map((r, i) => (
+                                                <tr key={i}>
+                                                    <td>
+                                                        {r.similarity.toFixed(6)}
+                                                    </td>
+                                                    <td>
+                                                        <strong>{r.codeComponentName}</strong>
+                                                    </td>
+                                                    <td>
+                                                        {r.codeComponentBag.join(" ")}
+                                                    </td>
+                                                </tr>
+                                            )
                                         )
-                                    )
-                                }
-                            </ul>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
