@@ -30,18 +30,18 @@ class PayloadForm extends Component {
         return (
             <form onSubmit={this.handleSubmit} className={"form-inline"}>
                 <div className={"form-group"}>
-                    <label htmlFor={"limit"}>
+                    <label htmlFor={"limit"} className={"control-label"}>
                         How many labels?
                     </label>
-                    <input name={"limit"} className={"form-control"} type="number" min={1} value={this.state.limit}
+                    <input name={"limit"} className={"form-control labels-form"} type="number" min={1} value={this.state.limit}
                            onChange={this.handleChange}/>
                 </div>
 
                 <div className={"form-group"}>
-                    <label htmlFor={"ngrams"}>
+                    <label htmlFor={"ngrams"} className={"control-label"}>
                         Ngram size?
                     </label>
-                    <input name={"ngrams"} className={"form-control"} type="number" min={1} max={5}
+                    <input name={"ngrams"} className={"form-control labels-form"} type="number" min={1} max={5}
                            value={this.state.ngrams} onChange={this.handleChange}/>
                 </div>
 

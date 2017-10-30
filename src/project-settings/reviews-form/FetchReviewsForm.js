@@ -1,23 +1,43 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import Constants from "../../Constants";
+import Constants from "../../Constants.js";
 
 class FetchReviewsForm extends Component {
 
     constructor() {
         super();
 
-        this.state = {limit: 5000, jobStatusId: -1};
+        this.state = {limit: 5000, jobStatusId: -1, timeInterval: 1};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.fetchReviews = this.fetchReviews.bind(this);
     }
 
     handleChange(event) {
-        this.setState({limit: event.target.value});
+        const target = event.target;
+
+        const value = target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
     }
 
     handleSubmit(event) {
+        event.preventDefault();
+        // const payload = {limit: this.state.limit, id: this.props.projectId};
+        // const promise = axios.post(`${Constants.SERVER_URL}/reviews`, payload);
+        // promise.then(response => {
+        //     this.setState({jobStatusId: response.data})
+        // });
+
+        console.log(this.state);
+        console.log(this.props.projectId);
+    }
+
+    fetchReviews(event) {
         event.preventDefault();
         const payload = {limit: this.state.limit, id: this.props.projectId};
         const promise = axios.post(`${Constants.SERVER_URL}/reviews`, payload);
@@ -35,13 +55,28 @@ class FetchReviewsForm extends Component {
                         <legend>Review settings</legend>
 
                         <div className={"form-group"}>
-                            <label className={"control-label"} htmlFor={"limit-reviews"}>How many reviews should I
+                            <label className={"control-label"} htmlFor={"limit"}>How many reviews should I
                                 retrieve?
                                 (max)</label>
-                            <input className={"form-control"} id={"limit-reviews"} onChange={this.handleChange}
+                            <input className={"form-control"} id={"limit"} name={"limit"} onChange={this.handleChange}
                                    value={this.state.limit} type={"numeric"}/>
                         </div>
-                        <button className={"btn btn-primary"} type="submit">Fetch Reviews</button>
+
+                        <div className={"form-group"}>
+                            <label className={"control-label"} htmlFor={"timeInterval"}>Time interval for review
+                                analysis</label>
+                            <select className={"form-control"} name={"timeInterval"} value={this.state.timeInterval}
+                                    onChange={this.handleChange}>
+                                <option>Open this select menu</option>
+                                <option value="1">Last 7 days</option>
+                                <option value="2">Last 14 days</option>
+                                <option value="3">Last 30 days</option>
+                                <option value="4">Last 3 months</option>
+                            </select>
+                        </div>
+
+                        <button className={"btn btn-primary"} type={"submit"}>Save</button>
+                        <button className={"btn btn-primary"} onClick={this.fetchReviews}>Fetch Reviews</button>
                     </form>
 
                     <br/>
