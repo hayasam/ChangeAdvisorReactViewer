@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import "./ProjectForm.css";
+import Constants from '../../Constants.js';
 
 class ProjectForm extends Component {
 
@@ -12,7 +14,6 @@ class ProjectForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // You don't have to do this check first, but it can help prevent an unneeded render
         if (nextProps.value !== this.state) {
             this.state = nextProps.value;
         }
@@ -30,7 +31,22 @@ class ProjectForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.handleSubmit(this.state);
+        this.handleFormSubmit(this.state);
+    }
+
+    handleFormSubmit(formData) {
+        const promise = axios.post(`${Constants.SERVER_URL}/projects/`, formData);
+        this.setState({showAlert: false, showError: false});
+
+        promise.then(res => {
+            console.log(res.data);
+            if (res.status === 200) {
+                this.setState({showAlert: true, project: res.data, hasError: false});
+            }
+        }).catch(error => {
+            this.setState({hasError: true, showAlert: false, project: formData});
+            console.log(error);
+        });
     }
 
     render() {
@@ -74,6 +90,16 @@ class ProjectForm extends Component {
 
                         <button className={"btn btn-primary"} type="submit">Save</button>
                     </form>
+
+                    <br />
+
+                    <div className={this.state.showAlert ? "col-md-12 animated fadeIn" : "hidden col-md-12"} role="alert">
+                        <p className={"alert alert-success"}>Success!</p>
+                    </div>
+
+                    <div className={this.state.hasError ? "col-md-12 animated fadeIn" : "hidden col-md-12"} role="alert">
+                        <p className={"alert alert-danger"}>Please check the form!</p>
+                    </div>
                 </div>
             </div>
         );

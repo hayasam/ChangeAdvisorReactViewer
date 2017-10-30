@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import Constants from "../Constants";
+import Constants from "../../Constants";
 
 class FetchReviewsForm extends Component {
 
@@ -40,6 +40,8 @@ class FetchReviewsForm extends Component {
                         </div>
                         <button className={"btn btn-primary"} type="submit">Fetch Reviews</button>
                     </form>
+
+                    <br/>
 
                     <div className={this.state.jobStatusId < 0 ? "col-md-12 fade in" : "col-md-12"} role="alert">
                         <p className={"alert alert-success"}>For status update goto <a

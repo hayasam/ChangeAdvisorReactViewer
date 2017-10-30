@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ProjectSelect from "../project-settings/project-select/ProjectSelect";
+import ProjectSelect from "./project-select/ProjectSelect";
 import './Projects.css';
 import {Link} from "react-router-dom";
 
