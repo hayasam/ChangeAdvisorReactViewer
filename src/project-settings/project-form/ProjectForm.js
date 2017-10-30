@@ -56,6 +56,9 @@ class ProjectForm extends Component {
                 <div className={"card-body"}>
                     <form onSubmit={this.handleSubmit}
                           className={`form ${this.props.hasError ? 'has-error' : 'has-success'}`}>
+
+                        <legend>App settings</legend>
+
                         <div className={"form-group"}>
                             <label htmlFor={"appName"} className={"control-label"}>
                                 Application Name

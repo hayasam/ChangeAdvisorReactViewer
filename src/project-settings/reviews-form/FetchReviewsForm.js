@@ -31,6 +31,9 @@ class FetchReviewsForm extends Component {
             <div className={"card card-shadow"}>
                 <div className={"card-body"}>
                     <form onSubmit={this.handleSubmit}>
+
+                        <legend>Review settings</legend>
+
                         <div className={"form-group"}>
                             <label className={"control-label"} htmlFor={"limit-reviews"}>How many reviews should I
                                 retrieve?
