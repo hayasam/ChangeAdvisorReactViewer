@@ -22,7 +22,12 @@ class CategoryTable extends Component {
     render() {
         const label = this.props.label;
         if (!label || !label.reviews) {
-            return <div/>;
+            return (
+                <div className={"card-title"}>
+                    <h4>Select a label to view more info!</h4>
+                </div>
+            )
+
         }
 
         const reviews = label.reviews;

@@ -28,25 +28,28 @@ class PayloadForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit} className={"form-inline"}>
-                <div className={"form-group"}>
-                    <label htmlFor={"limit"} className={"control-label"}>
-                        How many labels?
-                    </label>
-                    <input name={"limit"} className={"form-control labels-form"} type="number" min={1} value={this.state.limit}
-                           onChange={this.handleChange}/>
-                </div>
+            <div className={"col-md-12"}>
+                <form onSubmit={this.handleSubmit} className={"form-inline"}>
+                    <div className={"form-group"}>
+                        <label htmlFor={"limit"} className={"control-label"}>
+                            How many labels?
+                        </label>
+                        <input name={"limit"} className={"form-control labels-form"} type="number" min={1}
+                               value={this.state.limit}
+                               onChange={this.handleChange}/>
+                    </div>
 
-                <div className={"form-group"}>
-                    <label htmlFor={"ngrams"} className={"control-label"}>
-                        Ngram size?
-                    </label>
-                    <input name={"ngrams"} className={"form-control labels-form"} type="number" min={1} max={5}
-                           value={this.state.ngrams} onChange={this.handleChange}/>
-                </div>
+                    <div className={"form-group"}>
+                        <label htmlFor={"ngrams"} className={"control-label"}>
+                            Ngram size?
+                        </label>
+                        <input name={"ngrams"} className={"form-control labels-form"} type="number" min={1} max={5}
+                               value={this.state.ngrams} onChange={this.handleChange}/>
+                    </div>
 
-                <button className={"btn btn-primary"} type="submit">Save</button>
-            </form>
+                    <button className={"btn btn-primary"} type="submit">Save</button>
+                </form>
+            </div>
         );
     }
 }

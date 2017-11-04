@@ -6,6 +6,7 @@ import axios from 'axios';
 import Constants from '../Constants';
 import PayloadForm from "../payload-form/PayloadForm";
 import CategoryTable from "../category-table/CategoryTable";
+import SelectAProjectComponent from "./SelectAProjectComponent";
 
 class App extends Component {
 
@@ -13,80 +14,70 @@ class App extends Component {
         super();
 
         this.state = {
-            selectedCategory: null,
+            projectId: null,
             data: [],
-            labels: [],
             isLoading: false,
             formData: {limit: 10, ngrams: 1},
-            numberOfReviewForSelectedCategory: 1000,
+            numberOfReviewsForLabels: 1000,
             responseTime: 1,
             totalReviews: 1,
+            labels: [],
             selectedLabel: null,
             isServerUp: true
         };
         this.componentDidMount.bind(this);
+        this.handleFormSubmit.bind(this);
     }
 
     componentDidMount() {
         const param = this.props.match.match.params;
         const projectId = param.id;
+
+        if (!this.props.project) {
+            this.loadProject(projectId);
+        }
+
+        this.setState({projectId: projectId});
+
+        this.loadTopReviews(projectId);
         this.loadDistributionData(projectId);
-    }
-
-    loadDistributionData(projectId) {
-        const promise = axios.get(`${Constants.SERVER_URL}/reviews/${projectId}/distribution`);
-        promise.then(res => {
-            const responseBody = res.data;
-            const distribution = responseBody.distribution
-                .map(obj => ({
-                    label: obj.category,
-                    value: obj.reviewSize
-                }));
-
-
-            this.setState({data: distribution, totalReviews: responseBody.totalReviews});
-            if (distribution.length > 0) {
-                this.setState({
-                    selectedCategory: distribution[0],
-                    data: distribution,
-                    totalReviews: responseBody.totalReviews
-                });
-                this.categoryChosen(0);
-            }
-        });
     }
 
     loadProject(projectId) {
         const loadProject = axios.get(`${Constants.SERVER_URL}/projects/${projectId}`);
         loadProject.then(response => {
-            console.log(response.data);
-            this.setState({project: response.data});
+            this.setState({isServerUp: true, project: response.data});
         }).catch(error => {
-            console.log(error)
+            console.log(error);
+            this.setState({isServerUp: false});
+        });
+    }
+
+    loadDistributionData(projectId) {
+        const promise = axios.get(`${Constants.SERVER_URL}/reviews/${projectId}/distribution?countOnly=true`);
+        promise.then(res => {
+            const responseBody = res.data;
+            const distribution = responseBody.distribution
+                .map(obj => ({
+                    label: obj.category,
+                    value: obj.reviewCount
+                }));
+
+            this.setState({data: distribution, totalReviews: responseBody.totalReviews});
         });
     }
 
     handleFormSubmit(formData) {
         this.setState({formData: formData}, function () {
-            if (this.state.selectedCategory) {
-                this.loadTopReviews();
-            }
+            this.loadTopReviews(this.state.projectId);
         });
     }
 
     render() {
-        const project = this.props.project;
+        const project = this.props.project || this.state.project;
 
         if (!project) {
-            return (
-                <div className={"col-md-12"}>
-                    <div className={"row"}>
-                        <div className={"col-md-12"}>
-                            <h3>Select a project first!</h3>
-                        </div>
-                    </div>
-                </div>
-            )
+            return <SelectAProjectComponent/>;
         }
 
         return (
@@ -97,24 +88,28 @@ class App extends Component {
                     </div>
                 </div>
 
-                <div className={"row"}>
-                    <div className={"col-md-12 payload-form"}>
-                        <PayloadForm value={this.state.formData}
-                                     handleSubmit={(formData) => this.handleFormSubmit(formData)}/>
+                <div className={"row card-deck"}>
+                    <div className={"card card-shadow"}>
+                        <div className={"card-body"}>
+                            <PayloadForm value={this.state.formData}
+                                         handleSubmit={(formData) => this.handleFormSubmit(formData)}/>
+                        </div>
                     </div>
                 </div>
 
-                <div className={"card-deck"}>
+                <br/>
+
+                <div className={"row card-deck"}>
                     <div className={"col-md-3 card card-shadow"}>
                         <div className={"card-body"}>
-                            <DistributionPieChart distribution={this.state.data} viewBoxWidth={50}
-                                                  onClick={(sector) => this.categoryChosen(sector)}/>
+                            <DistributionPieChart distribution={this.state.data} viewBoxWidth={50}/>
                             <hr/>
                             <h4>Total Reviews: {this.state.totalReviews}</h4>
-                            {this.state.selectedCategory &&
-                            <p className={"help-block"}>{this.state.numberOfReviewForSelectedCategory} Reviews
-                                ({this.state.responseTime}
-                                seconds)</p>
+                            {
+                                <p className={"form-text text-muted"}>{this.state.formData.limit} Labels for a total
+                                    of {this.state.numberOfReviewsForLabels} Reviews
+                                    ({this.state.responseTime}
+                                    seconds)</p>
                             }
 
                             <Labels isLoading={this.state.isLoading} labels={this.state.labels}
@@ -137,59 +132,38 @@ class App extends Component {
     }
 
     selectedLabel(label) {
-        console.log(label);
         this.setState({selectedLabel: label});
     }
 
-    categoryChosen(tmp) {
-        console.log(tmp);
-        if (tmp !== undefined) {
-            this.setState({
-                selectedCategory: this.state.data[tmp],
-                isLoading: true
-            }, function () {
-                this.loadTopReviews();
-            });
-        }
-    }
+    loadTopReviews(projectId) {
+        const payload = {
+            app: projectId,
+            limit: this.state.formData.limit,
+            ngrams: this.state.formData.ngrams
+        };
 
-    loadTopReviews() {
-        if (this.state.selectedCategory) {
-            const payload = {
-                app: "com.frostwire.android",
-                limit: this.state.formData.limit,
-                category: this.state.selectedCategory.label,
-                ngrams: this.state.formData.ngrams
-            };
+        this.setState({
+            isLoading: true
+        }, function () {
+            const start = Date.now();
 
-            this.setState({
-                isLoading: true
-            }, function () {
-                const start = Date.now();
+            const promise = axios.post(`${Constants.SERVER_URL}/reviews/labels`, payload);
+            promise.then(res => {
+                const labels = res.data;
+                this.setState({
+                    data: this.state.data,
+                    labels: labels,
+                    isLoading: false
+                });
+                const elapsed = (Date.now() - start) / 1000.0;
 
-                const promise = axios.post(`${Constants.SERVER_URL}/reviews/labels`, payload);
-                promise.then(res => {
-                    //const posts = res.data.data.children.map(obj => obj.data);
-                    const labels = res.data;
-                    this.setState({
-                        selectedCategory: this.state.selectedCategory,
-                        data: this.state.data,
-                        labels: labels,
-                        isLoading: false
-                    });
-                    const end = Date.now();
-                    const elapsed = (end - start) / 1000.0;
-
-                    console.log(this.state.selectedCategory);
-                    console.log(this.state.labels);
-                    const numberOfReviewForSelectedCategory = this.state.labels.reduce((sum, value) => sum + value.reviewCount, 0);
-                    this.setState({
-                        responseTime: elapsed,
-                        numberOfReviewForSelectedCategory: numberOfReviewForSelectedCategory
-                    });
+                const numberOfReviewsForLabels = this.state.labels.reduce((sum, value) => sum + value.reviewCount, 0);
+                this.setState({
+                    responseTime: elapsed,
+                    numberOfReviewsForLabels: numberOfReviewsForLabels
                 });
             });
-        }
+        });
     }
 }
 
