@@ -111,16 +111,7 @@ class App extends Component {
             <div className={"col-md-12"}>
                 <div className={"row"}>
                     <div className={"col-md-12"}>
-                        <h3>{project.appName} - Reviews.</h3>
-                    </div>
-                </div>
-
-                <div className={"row card-deck"}>
-                    <div className={"card card-shadow"}>
-                        <div className={"card-body"}>
-                            <PayloadForm value={this.state.formData}
-                                         handleSubmit={(formData) => this.handleFormSubmit(formData)}/>
-                        </div>
+                        <h3>{project.appName}</h3>
                     </div>
                 </div>
 
@@ -130,6 +121,17 @@ class App extends Component {
                     <div className={"card card-shadow"}>
                         <div className={"card-body"}>
                             <TimeSeries averages={avgRatings} reviewCounts={reviewCount}/>
+                        </div>
+                    </div>
+                </div>
+
+                <br/>
+
+                <div className={"row card-deck"}>
+                    <div className={"card card-shadow"}>
+                        <div className={"card-body"}>
+                            <PayloadForm value={this.state.formData}
+                                         handleSubmit={(formData) => this.handleFormSubmit(formData)}/>
                         </div>
                     </div>
                 </div>
