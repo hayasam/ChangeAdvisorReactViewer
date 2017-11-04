@@ -24,6 +24,8 @@ class App extends Component {
             totalReviews: 1,
             labels: [],
             selectedLabel: null,
+            reviewCounts: [],
+            averages: [],
             isServerUp: true
         };
         this.componentDidMount.bind(this);
@@ -42,6 +44,7 @@ class App extends Component {
 
         this.loadTopReviews(projectId);
         this.loadDistributionData(projectId);
+        this.loadTimeSeriesData(projectId);
     }
 
     loadProject(projectId) {
@@ -68,6 +71,27 @@ class App extends Component {
         });
     }
 
+    loadTimeSeriesData(projectId) {
+        const promise = axios.get(`${Constants.SERVER_URL}/reviews/${projectId}/time`);
+        promise.then(response => {
+            const data = response.data;
+            console.log(data);
+
+            const reviews = data.map(point => (
+                [point.reviewDate, point.reviewCount]
+            ));
+
+            const averages = data.map(point => (
+                [point.reviewDate, point.average]
+            ));
+
+            console.log(averages);
+
+            this.setState({reviewCounts: reviews, averages: averages});
+
+        });
+    }
+
     handleFormSubmit(formData) {
         this.setState({formData: formData}, function () {
             this.loadTopReviews(this.state.projectId);
@@ -81,6 +105,8 @@ class App extends Component {
             return <SelectAProjectComponent/>;
         }
 
+        const reviewCount = this.state.reviewCounts;
+        const avgRatings = this.state.averages;
         return (
             <div className={"col-md-12"}>
                 <div className={"row"}>
@@ -103,7 +129,7 @@ class App extends Component {
                 <div className={"row card-deck"}>
                     <div className={"card card-shadow"}>
                         <div className={"card-body"}>
-                            <TimeSeries/>
+                            <TimeSeries averages={avgRatings} reviewCounts={reviewCount}/>
                         </div>
                     </div>
                 </div>
