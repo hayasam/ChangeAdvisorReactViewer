@@ -17,6 +17,13 @@ import {
 
 class TimeSeries extends Component {
 
+    onRangeSet(event) {
+        const minDate = new Date(event.min);
+        const maxDate = new Date(event.max);
+        console.log(minDate);
+        console.log(maxDate);
+    }
+
     render() {
         const reviewCount = this.props.reviewCounts;
         const avgRatings = this.props.averages;
@@ -26,7 +33,7 @@ class TimeSeries extends Component {
                 <HighchartsStockChart>
                     <Chart zoomType="x"/>
 
-                    <Title>Reviews vs Avg.Ratings</Title>
+                    <Title>Number of Reviews by Date vs Average Ratings</Title>
 
                     <Legend/>
 
@@ -36,10 +43,10 @@ class TimeSeries extends Component {
 
                     <YAxis id="reviews">
                         <YAxis.Title>Number of reviews</YAxis.Title>
-                        <SplineSeries id="reviewCount" name="Reviews by date" data={reviewCount}/>
+                        <SplineSeries id="reviewCount" name="Number of Reviews" data={reviewCount}/>
                     </YAxis>
 
-                    <XAxis>
+                    <XAxis onAfterSetExtremes={(event) => this.onRangeSet(event)}>
                         <XAxis.Title>Time</XAxis.Title>
                     </XAxis>
 
