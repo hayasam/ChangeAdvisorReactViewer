@@ -7,6 +7,7 @@ import Constants from '../Constants';
 import PayloadForm from "../payload-form/PayloadForm";
 import CategoryTable from "../category-table/CategoryTable";
 import SelectAProjectComponent from "./SelectAProjectComponent";
+import TimeSeries from "../timeseries/TimeSeries";
 
 class App extends Component {
 
@@ -93,6 +94,16 @@ class App extends Component {
                         <div className={"card-body"}>
                             <PayloadForm value={this.state.formData}
                                          handleSubmit={(formData) => this.handleFormSubmit(formData)}/>
+                        </div>
+                    </div>
+                </div>
+
+                <br/>
+
+                <div className={"row card-deck"}>
+                    <div className={"card card-shadow"}>
+                        <div className={"card-body"}>
+                            <TimeSeries/>
                         </div>
                     </div>
                 </div>

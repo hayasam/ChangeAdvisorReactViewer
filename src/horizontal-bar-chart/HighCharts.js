@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import ReactHighcharts from 'react-highcharts';
-import './HighCharts.css';
 
 class HighCharts extends Component {
 

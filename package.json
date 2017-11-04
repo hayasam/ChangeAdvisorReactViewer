@@ -15,6 +15,7 @@
     "react-dom": "^15.6.1",
     "react-easy-chart": "^0.3.0",
     "react-highcharts": "^13.0.0",
+    "react-jsx-highstock": "^2.0.1",
     "react-overlay-loading": "^1.0.3",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
