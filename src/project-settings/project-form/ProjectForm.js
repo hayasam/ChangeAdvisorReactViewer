@@ -94,13 +94,15 @@ class ProjectForm extends Component {
                         <button className={"btn btn-primary"} type="submit">Save</button>
                     </form>
 
-                    <br />
+                    <br/>
 
-                    <div className={this.state.showAlert ? "col-md-12 animated fadeIn" : "hidden col-md-12"} role="alert">
+                    <div className={this.state.showAlert ? "col-md-12 animated fadeIn" : "hidden col-md-12"}
+                         role="alert">
                         <p className={"alert alert-success"}>Success!</p>
                     </div>
 
-                    <div className={this.state.hasError ? "col-md-12 animated fadeIn" : "hidden col-md-12"} role="alert">
+                    <div className={this.state.hasError ? "col-md-12 animated fadeIn" : "hidden col-md-12"}
+                         role="alert">
                         <p className={"alert alert-danger"}>Please check the form!</p>
                     </div>
                 </div>
