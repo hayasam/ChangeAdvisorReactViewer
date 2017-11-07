@@ -20,8 +20,7 @@ class TimeSeries extends Component {
     onRangeSet(event) {
         const minDate = new Date(event.min);
         const maxDate = new Date(event.max);
-        console.log(minDate);
-        console.log(maxDate);
+        this.props.onRangeSet({min: minDate, max: maxDate});
     }
 
     render() {
@@ -31,7 +30,7 @@ class TimeSeries extends Component {
         return (
             <div>
                 <HighchartsStockChart>
-                    <Chart zoomType="x"/>
+                    <Chart zoomType="x" onLoad={(event) => this.onRangeSet(event)}/>
 
                     <Title>Number of Reviews by Date vs Average Ratings</Title>
 

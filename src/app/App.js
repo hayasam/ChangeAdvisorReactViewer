@@ -26,7 +26,8 @@ class App extends Component {
             selectedLabel: null,
             reviewCounts: [],
             averages: [],
-            isServerUp: true
+            isServerUp: true,
+            timeSeriesRange: null
         };
         this.componentDidMount.bind(this);
         this.handleFormSubmit.bind(this);
@@ -75,7 +76,6 @@ class App extends Component {
         const promise = axios.get(`${Constants.SERVER_URL}/reviews/${projectId}/time`);
         promise.then(response => {
             const data = response.data;
-            console.log(data);
 
             const reviews = data.map(point => (
                 [point.reviewDate, point.reviewCount]
@@ -84,8 +84,6 @@ class App extends Component {
             const averages = data.map(point => (
                 [point.reviewDate, point.average]
             ));
-
-            console.log(averages);
 
             this.setState({reviewCounts: reviews, averages: averages});
 
@@ -98,6 +96,27 @@ class App extends Component {
         });
     }
 
+    onRangeSet(range) {
+        this.setState({timeSeriesRange: range})
+    }
+
+    static average(list) {
+        let sum = 0;
+        for (let i = 0; i < list.length; i++) {
+            const review = list[i];
+            sum += review[1];
+        }
+        return sum / list.length;
+    }
+
+    static sum(list) {
+        let sum = 0;
+        for (let i = 0; i < list.length; i++) {
+            const review = list[i];
+            sum += review[1];
+        }
+    }
+
     render() {
         const project = this.props.project || this.state.project;
 
@@ -107,6 +126,38 @@ class App extends Component {
 
         const reviewCount = this.state.reviewCounts;
         const avgRatings = this.state.averages;
+
+        let maxRange = new Date();
+        let minRange = new Date();
+        let reviewsInInterval = 0;
+        let averageInInterval = 0.0;
+
+        const range = this.state.timeSeriesRange;
+        if (range) {
+            minRange = this.state.timeSeriesRange.min;
+            maxRange = this.state.timeSeriesRange.max;
+
+            for (let i = 0; i < reviewCount.length; i++) {
+                const review = reviewCount[i];
+                if (review[0] >= minRange && review[0] <= maxRange) {
+                    reviewsInInterval += review[1];
+                }
+            }
+
+            const ratingsInInterval = avgRatings.filter(review => review[0] >= minRange && review[0] <= maxRange);
+            averageInInterval = App.average(ratingsInInterval);
+        } else if (this.state.reviewCounts.length > 0) {
+            minRange = new Date(this.state.reviewCounts[0][0]);
+            maxRange = new Date(this.state.reviewCounts[this.state.reviewCounts.length - 1][0]);
+            reviewsInInterval = App.sum(this.state.reviewCounts.length);
+
+            averageInInterval = App.average(this.state.averages);
+        }
+
+        console.log(avgRatings);
+        console.log(reviewCount);
+
+
         return (
             <div className={"col-md-12"}>
                 <div className={"row"}>
@@ -120,7 +171,19 @@ class App extends Component {
                 <div className={"row card-deck"}>
                     <div className={"card card-shadow"}>
                         <div className={"card-body"}>
-                            <TimeSeries averages={avgRatings} reviewCounts={reviewCount}/>
+                            <div className={"row"}>
+                                <div className={"col-md-2"}>
+                                    <h5>Interval: <br/>
+                                        {minRange.toDateString()} - {maxRange.toDateString()}</h5>
+                                    <h6># Reviews: {reviewsInInterval}</h6>
+                                    <h6>Avg rating: {averageInInterval.toFixed(2)}</h6>
+                                </div>
+
+                                <div className={"col-md-10"}>
+                                    <TimeSeries averages={avgRatings} reviewCounts={reviewCount}
+                                                onRangeSet={(range) => this.onRangeSet(range)}/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
