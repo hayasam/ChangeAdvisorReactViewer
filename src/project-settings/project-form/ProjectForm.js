@@ -41,7 +41,16 @@ class ProjectForm extends Component {
         promise.then(res => {
             console.log(res.data);
             if (res.status === 200) {
-                this.setState({showAlert: true, project: res.data, hasError: false});
+                const project = res.data;
+                this.setState({
+                    showAlert: true,
+                    hasError: false,
+                    appName: project.appName,
+                    googlePlayId: project.googlePlayId,
+                    remoteUrl: project.remoteUrl,
+                    cronSchedule: project.cronSchedule,
+                    reviewsConfig: project.reviewsConfig
+                });
             }
         }).catch(error => {
             this.setState({hasError: true, showAlert: false, project: formData});
@@ -50,7 +59,7 @@ class ProjectForm extends Component {
     }
 
     render() {
-        console.log(this.props.hasError);
+        console.log(this.state.project);
         return (
             <div className={"card card-shadow"}>
                 <div className={"card-body"}>
@@ -89,6 +98,8 @@ class ProjectForm extends Component {
                             </label>
                             <input name={"cronSchedule"} className={"form-control"} value={this.state.cronSchedule}
                                    onChange={this.handleChange}/>
+                            <small className={"form-text text-muted"}>Next review import scheduled
+                                for: {this.state.reviewsConfig ? new Date(this.state.reviewsConfig.nextReviewImport).toLocaleString('DE-CH') : 'N/A'}</small>
                         </div>
 
                         <button className={"btn btn-primary"} type="submit">Save</button>
