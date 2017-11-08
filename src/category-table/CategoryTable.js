@@ -46,7 +46,7 @@ class CategoryTable extends Component {
                     <CategoryReport title={"Feature Request"} category={Constants.FEATURE_REQUEST}
                                     reviews={featureRequest}
                                     onclick={(category) => this.gotoClassesClicked(category)}/>
-                    <CategoryReport title={"Information Seeking"} category={Constants.INFO_SEEKING}
+                    <CategoryReport title={"Information Seek."} category={Constants.INFO_SEEKING}
                                     reviews={infoSeeking}
                                     onclick={(category) => this.gotoClassesClicked(category)}/>
                     <CategoryReport title={"Problem Discovery"} category={Constants.PROBLEM_DISCOVERY}
