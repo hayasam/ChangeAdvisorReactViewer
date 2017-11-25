@@ -14,7 +14,7 @@ class CategoryTable extends Component {
     }
 
     gotoClassesClicked(category) {
-        const payload = {app: "com.frostwire.android", category: category};
+        const payload = {app: this.props.project.appName, category: category};
         const label = this.props.label;
         this.props.gotoClassesClicked({payload: payload, label: label});
     }
