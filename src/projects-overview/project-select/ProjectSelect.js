@@ -32,10 +32,12 @@ class ProjectSelect extends Component {
                                 <Link to={`project/${project.id}`}>{project.appName}</Link>
                             </h4>
                             <div className={"project-card-dates pull-right"}>
-                                Last review import: {project.reviewsConfig ? new Date(project.reviewsConfig.lastReviewImport).toLocaleString('DE-CH') : 'N/A'}
+                                Last review
+                                import: {project.reviewsConfig ? new Date(project.reviewsConfig.lastReviewImport).toLocaleString('DE-CH') : 'N/A'}
                             </div>
                             <div className={"project-card-dates pull-right"}>
-                                Last code import: xx-xx-xxxx
+                                Last code
+                                import: {project.sourceConfig ? new Date(project.sourceConfig.lastSourceImport).toLocaleString('DE-CH') : 'N/A'}
                             </div>
                         </div>
                         <div className={"project-card-body"}>
