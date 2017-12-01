@@ -27,14 +27,6 @@ class FetchReviewsForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        // const payload = {limit: this.state.limit, id: this.props.projectId};
-        // const promise = axios.post(`${Constants.SERVER_URL}/reviews`, payload);
-        // promise.then(response => {
-        //     this.setState({jobStatusId: response.data})
-        // });
-
-        console.log(this.state);
-        console.log(this.props.projectId);
     }
 
     fetchReviews(event) {

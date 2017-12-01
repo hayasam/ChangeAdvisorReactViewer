@@ -3,6 +3,7 @@ import {Component} from "react/lib/ReactBaseClasses";
 import ProjectForm from "./project-form/ProjectForm";
 import FetchReviewsForm from "./reviews-form/FetchReviewsForm";
 import './ProjectSettings.css'
+import SourceForm from "./source-form/SourceForm";
 
 class ProjectSettings extends Component {
 
@@ -30,11 +31,13 @@ class ProjectSettings extends Component {
 
                 <br/>
 
-                <div className={this.state.showAlert ? "col-md-12 animated fadeIn" : "hidden col-md-12"} role="alert">
+                <div className={this.state.showAlert ? "col-md-12 animated fadeIn" : "hidden col-md-12"}
+                     role="alert">
                     <p className={"alert alert-success"}>Success!</p>
                 </div>
 
-                <div className={this.state.hasError ? "col-md-12 animated fadeIn" : "hidden col-md-12"} role="alert">
+                <div className={this.state.hasError ? "col-md-12 animated fadeIn" : "hidden col-md-12"}
+                     role="alert">
                     <p className={"alert alert-danger"}>Please check the form!</p>
                 </div>
 
@@ -42,6 +45,12 @@ class ProjectSettings extends Component {
 
                 <div className={"col-md-12"}>
                     <FetchReviewsForm projectId={project.id}/>
+                </div>
+
+                <br/>
+
+                <div className={"col-md-12"}>
+                    <SourceForm projectId={project.id}/>
                 </div>
             </div>
         )
