@@ -8,7 +8,7 @@ class SourceForm extends Component {
         super();
 
         this.state = {
-            jobStatusId: null
+            jobStatusId: -1
         };
         this.fetchCode = this.fetchCode.bind(this);
     }
