@@ -8,7 +8,7 @@
     "component-horizontal-stacked-bar": "^2.0.1",
     "d3": "^4.10.2",
     "jquery": "^3.2.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.17",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
@@ -17,7 +17,7 @@
     "react-jsx-highstock": "^2.0.1",
     "react-overlay-loading": "^1.0.3",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.13",
+    "react-scripts": "4.0.0",
     "react-svg-piechart": "^1.4.0",
     "react-table": "^6.6.0",
     "rumble-charts": "^1.4.1"
