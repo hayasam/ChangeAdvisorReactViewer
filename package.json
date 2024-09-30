@@ -17,7 +17,7 @@
     "react-jsx-highstock": "^2.0.1",
     "react-overlay-loading": "^1.0.3",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.13",
+    "react-scripts": "2.0.3",
     "react-svg-piechart": "^1.4.0",
     "react-table": "^6.6.0",
     "rumble-charts": "^1.4.1"
